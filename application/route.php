@@ -9,7 +9,8 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-return [
+use think\Route;
+/*return [
     '__pattern__' => [
         'name' => '\w+',
     ],
@@ -18,4 +19,12 @@ return [
         ':name' => ['index/hello', ['method' => 'post']],
     ],
 
-];
+];*/
+
+Route::rule('hello', 'text/hello/index', 'get|post', ['https'=>false]);
+
+//Route::get('tp','index/index/index'); //快捷方式设置访问类型
+
+Route::post('test', 'text/Hello/test');
+
+Route::get('banner/[:id]', 'api/v1.Banner/getBanner');
