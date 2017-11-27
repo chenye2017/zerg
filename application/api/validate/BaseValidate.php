@@ -25,5 +25,6 @@ class BaseValidate extends Validate
         } else {
             throw new Exception($this->error);
         }
+
     }
 }

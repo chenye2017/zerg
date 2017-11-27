@@ -8,9 +8,10 @@
 
 namespace app\api\controller\v1;
 
-use think\Validate;
-use app\api\validate\IdMustInt;
 
+use app\api\model\Banner as BannnerModel;
+use app\api\validate\IdMustInt;
+use app\lib\exception\BannerMissingException;
 
 class Banner
 {
@@ -30,7 +31,17 @@ class Banner
 
         $result = $validate->goCheck();
         //var_dump($result);exit;
-        var_dump($validate->getError());
+        //var_dump($validate->getError());
+        //try {
+            $bannner = BannnerModel::getBanner();
+            if (!$bannner) {
+                throw new BannerMissingException();
+            }
+       // } catch (Exception $e) {
+            $result = ['errCode'=>1001,'errMsg'=>'出错啦'];
+           // return json($result, 400);
+        //}
+        return false;
 
     }
 }
