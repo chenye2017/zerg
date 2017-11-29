@@ -17,6 +17,7 @@ class Banner
 {
     public function getBanner()
     {
+        //$z = 1/0; return;
         /*$param  = [
             'id' => -1,
             'email' => '1967196626qq.com'

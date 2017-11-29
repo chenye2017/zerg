@@ -15,7 +15,8 @@ class IdMustInt extends BaseValidate
 {
     //这个地方自定义的rule，是对id这个类型数据的校验，别的key对应的数据就不能用这个校验了
     protected $rule = [
-        'id'=>'require|idMustInt'
+        'id'=>'require|idMustInt',
+        'num'=>'in: 1,2,3'    //验证器这块的rule定义的数组对应每个变量，key对应变量名
     ];
     protected function idMustInt($value, $rule='', $data='', $field='')
     {
