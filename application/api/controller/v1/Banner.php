@@ -12,10 +12,11 @@ namespace app\api\controller\v1;
 use app\api\model\Banner as BannnerModel;
 use app\api\validate\IdMustInt;
 use app\lib\exception\BannerMissingException;
+use think\Request;
 
 class Banner
 {
-    public function getBanner()
+    public function getBanner(Request $request)
     {
         //$z = 1/0; return;
         /*$param  = [
@@ -29,12 +30,13 @@ class Banner
             'email' => 'email'
         ]);*/
         $validate = new IdMustInt();
-
+        $id = $request->param('id');
         $result = $validate->goCheck();
         //var_dump($result);exit;
         //var_dump($validate->getError());
         //try {
-            $bannner = BannnerModel::getBanner();
+            //$bannner = BannnerModel::getBannerById($id);
+        $bannner = BannnerModel::get($id); //这个还必须传递id，否则会报错
             if (!$bannner) {
                 throw new BannerMissingException();
             }
@@ -42,7 +44,7 @@ class Banner
             $result = ['errCode'=>1001,'errMsg'=>'出错啦'];
            // return json($result, 400);
         //}
-        return false;
+        return $bannner;
 
     }
 }

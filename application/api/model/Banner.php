@@ -9,17 +9,22 @@
 namespace app\api\model;
 
 
-use think\Exception;
+use think\Db;
+use think\Model;
 
-class Banner
+class Banner extends Model
 {
-    public static function getBanner()
+    protected $table = 'banner_item';
+    public static function getBannerById($id)
     {
         //try {
             //1/0;
         //} catch (Exception $e) {
             //throw $e;
         //}
-        return null;
+        $banner = Db::query('select * from banner_item ', []);
+        //$banner = Db::table('banner_item')->find();
+
+        return $banner;
     }
 }

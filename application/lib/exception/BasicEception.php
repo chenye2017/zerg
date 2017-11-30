@@ -8,9 +8,9 @@
 
 namespace app\lib\exception;
 
-use Exception;
 
-class BasicEception extends Exception
+
+class BasicEception extends \Exception
 {
     public $httpCode;
     public $errCode;
