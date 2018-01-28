@@ -9,7 +9,7 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-use think\Route;
+use think\Route;  //使用自己动态注册的路由时候必须引入的类，配置式的直接返回一个数组就可以了
 /*return [
     '__pattern__' => [
         'name' => '\w+',
@@ -27,4 +27,12 @@ Route::rule('hello', 'text/hello/index', 'get|post', ['https'=>false]);
 
 Route::post('test', 'text/Hello/test');
 
-Route::get('banner/[:id]', 'api/v1.Banner/getBanner');
+
+Route::rule('test/:id/:name', 'test/test/test', 'get');
+
+
+//rule是自定义的路由访问，就是人工输入的访问路径。route是原生的pathinfo对应的路径，rule是为了符合restful而设计的
+//现有rule,才有route
+Route::get('api/:version/banner/[:id]', 'api/:version.Banner/getBanner');
+
+Route::get('api/:version/theme', 'api/:version.Theme/getSimpleList');

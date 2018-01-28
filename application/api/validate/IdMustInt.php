@@ -15,15 +15,11 @@ class IdMustInt extends BaseValidate
 {
     //这个地方自定义的rule，是对id这个类型数据的校验，别的key对应的数据就不能用这个校验了
     protected $rule = [
-        'id'=>'require|idMustInt',
-        'num'=>'in: 1,2,3'    //验证器这块的rule定义的数组对应每个变量，key对应变量名
+        'id'=>'require|idMustInt'
+         //验证器这块的rule定义的数组对应每个变量，key对应变量名
     ];
-    protected function idMustInt($value, $rule='', $data='', $field='')
-    {
-        if (is_numeric($value) && is_int($value + 0) && ($value+0)>0) {
-            return true;
-        } else {
-            return $field.'必须是真整数';
-        }
-    }
+
+    protected $message = [
+        'id'=> '必须是正整数'
+    ];
 }

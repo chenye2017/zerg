@@ -10,10 +10,12 @@ namespace app\lib\exception;
 
 
 use Exception;
+use think\Config;
 use think\exception\Handle;
 use think\Log;
 use think\Request;
 use app\lib\exception\BasicEception;
+
 
 
 class ExampleHandle extends Handle
@@ -29,9 +31,10 @@ class ExampleHandle extends Handle
             $this->errCode = $e->errCode;
             $this->errMsg = $e->errMsg;
         } else {
-            if (config('app_debug') == 'false') {
+            //Config::get('app_debug');
+            if (config('app_debug') == true) {
                 return parent::render($e);
-            } else {
+            } else { //false 的时候是生产环境，交给日志来记录错误
                 $this->httpCode = 500;
                 $this->errCode = 999;
                 $this->errMsg = '服务器内部错误不想告诉你';
@@ -43,11 +46,11 @@ class ExampleHandle extends Handle
     }
     public function recordLog($content)
     {
-        Log::init([ 'type'  => 'file',
+        /*Log::init([ 'type'  => 'file',
             // 日志保存目录
             'path'  => LOG_PATH,
             // 日志记录级别
-            'level' => ['error'],]);
+            'level' => ['error'],]);*/
         Log::record($content, 'error');
     }
 }
