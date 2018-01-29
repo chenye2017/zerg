@@ -14,7 +14,7 @@ use Throwable;
 class ParamErrorException extends BasicEception
 {
     public $httpCode = 400;
-    public $errCode = 10002;
+    public $errCode = 10000;
     public $errMsg = '参数错误';
 
     public function __construct($data = [])

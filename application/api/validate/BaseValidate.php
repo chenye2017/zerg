@@ -27,7 +27,7 @@ class BaseValidate extends Validate
             //其实你想一下，验证层和别的异常处理不一样，验证层的错误都属于参数错误，不管是http code 还是error code 都应该一样的，所以我还是感觉整个验证层可以定义在一个重写的class泪中，封装了验证方法即可
             throw new ParamErrorException([
                 'httpCode'=> 400,
-                'errCode'=> 1002,
+                'errCode'=> 10000,
                 'errMsg'=> $this->error]);  //这个地方因为不是错误，所以需要抛出，这样全局异常处理handle才能捕获到
         }
 

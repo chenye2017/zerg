@@ -12,7 +12,7 @@ use app\lib\exception\BasicEception;
 
 class BannerMissingException extends BasicEception
 {
-    public $httpCode = 400;
+    public $httpCode = 404;
     public $errCode = 10001;
     public $errMsg = '没有找到对应id的banner';
 }
