@@ -17,19 +17,5 @@ class ParamErrorException extends BasicEception
     public $errCode = 10000;
     public $errMsg = '参数错误';
 
-    public function __construct($data = [])
-    {
-        if (!is_array($data)) {
-            return ;
-        }
-        if (array_key_exists('httpCode', $data)) {
-            $this->httpCode = $data['httpCode'];
-        }
-        if (array_key_exists('errCode', $data)) {
-            $this->httpCode = $data['errCode'];
-        }
-        if (array_key_exists('errMsg', $data)){
-        $this->errMsg = $data['errMsg'];
-        }
-    }
+
 }
