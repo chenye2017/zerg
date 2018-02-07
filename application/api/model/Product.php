@@ -20,6 +20,16 @@ class Product extends BaseModel
         return $this->prefixUrl($value, $data);
     }
 
+    public function imges()
+    {
+        return $this->hasMany('product_image', 'product_id', 'id');
+    }
+
+    public function propertys()
+    {
+        return $this->hasMany('product_property', 'product_id', 'id');
+    }
+
     public function getRecent($count)
     {
         $products = self::limit($count)
@@ -39,5 +49,19 @@ class Product extends BaseModel
             throw new ProductException();
         }
         return $products;
+    }
+
+    public function getOne($id)
+    {
+        $product = self::with([
+            'imges'=>function($query) {
+                $query->with(['imgUrl'])
+                       ->order('order');
+            }
+            ])
+            ->with(['propertys'])
+            ->where('id', '=', $id)
+            ->find();
+        return $product;
     }
 }

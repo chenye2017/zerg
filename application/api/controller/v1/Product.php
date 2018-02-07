@@ -31,5 +31,18 @@ class Product extends Controller
         return json($products);
     }
 
+    /**
+     * 获取一个商品的详细信息
+     * @param $id
+     * @return \think\response\Json
+     */
+    public function getOne($id)
+    {
+        (new IdMustInt())->goCheck();
+        $productModel = new ProductModel();
+        $product = $productModel->getOne($id);
+        return json($product);
+    }
+
 
 }
