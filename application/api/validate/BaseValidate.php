@@ -52,5 +52,36 @@ class BaseValidate extends Validate
 
     }
 
+    protected function isMobile($value)
+    {
+        $pattern = '/^1[34578]\d{9}$/';
+        if (preg_match($pattern, $value))
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 过滤只有rule里面定义的参数
+     * @return array
+     * @throws ParamErrorException
+     */
+    public function filterParam()
+    {
+        $param = Request::instance()->param();
+        if (array_key_exists('uid', $param) || array_key_exists('user_id', $param)) {
+            throw new ParamErrorException(
+                ['msg'=>'不要传入uid或者userid']
+            );
+        }
+
+        $newParam = [];
+        foreach ($this->rule as $key=>$value) {
+            $newParam[$key] = $param[$key];
+        }
+        return $newParam;
+    }
 
 }

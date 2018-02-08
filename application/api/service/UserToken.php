@@ -10,7 +10,7 @@ namespace app\api\service;
 
 
 use app\api\model\User as UserModel;
-use app\lib\exception\GetWxOpenIdERR;
+use app\lib\exception\GetWxOpenIdErr;
 use app\lib\exception\TokenSaveErr;
 use think\Exception;
 
@@ -38,9 +38,9 @@ class UserToken extends Token
         if (empty($token)) {
             throw new Exception('获取token失败');
         } else {
-            $loginFail = array_key_exists('errcode', $token);
+            $loginFail = array_key_exists('errcode', $wxReturn);
             if ($loginFail) {
-                $this->handleGetOpenIdErr($token);
+                $this->handleGetOpenIdErr($wxReturn);
             } else {
                 $token = $this->getToken($wxReturn);
                 return $token;

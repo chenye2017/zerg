@@ -2,7 +2,9 @@
 
 namespace app\api\model;
 
+use app\lib\exception\ParamErrorException;
 use think\Model;
+use think\Request;
 
 class User extends Model
 {
@@ -19,5 +21,19 @@ class User extends Model
             'openid'=>$openid
         ]);
         return $user->id;
+    }
+
+    public function getUid()
+    {
+        $token = Request::instance()->header('token');
+        if (!$token) {
+            throw new ParamErrorException(
+              ['msg'=>'需要传递token哦，才能调用api']
+            );
+        } else {
+            $uid = getCacheValue($token, 'uid');
+            return $uid;
+        }
+
     }
 }
