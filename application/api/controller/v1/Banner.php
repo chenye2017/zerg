@@ -29,6 +29,7 @@ class Banner
      */
     public function getBanner(Request $request)
     {
+
         //$z = 1/0; return;
         /*$param  = [
             'id' => 8,
@@ -44,35 +45,43 @@ class Banner
             'email' => 'email'
         ]);*/
         $validate = new IdMustInt();
-        $check = $validate->goCheck();
+        $check    = $validate->goCheck();
 
 //exit;
         //} else {
-            //$id = $request->param('id');
-            //$result = $validate->batch()->check($param);
-            //var_dump($validate->getError());
-            //$a = 1;
-            //var_dump($result);exit;
-            //var_dump($validate->getError());
-            //try {
-                //$bannner = BannnerModel::getBannerById($id);
+        //$id = $request->param('id');
+        //$result = $validate->batch()->check($param);
+        //var_dump($validate->getError());
+        //$a = 1;
+        //var_dump($result);exit;
+        //var_dump($validate->getError());
+        //try {
+        //$bannner = BannnerModel::getBannerById($id);
 
-                //$banner = BannerModel::with(['items', 'items.img'])->find($id); //这个还必须传递id，否则会报错
+        //$banner = BannerModel::with(['items', 'items.img'])->find($id); //这个还必须传递id，否则会报错
 
-                $bannerModel = new BannerModel();
-                //$banner = $bannerModel->hasMany('BannerItem', 'banner_id', 'id')->find($id);
-                $banner = $bannerModel->getBannerById($id);
-                $banner->hidden(['update_time', 'delete_time']);
-                /*if (!$banner) {
-                    throw new BannerMissingException();
-                }*/
-            //}
-            /*catch
-                (Exception $e) {
-                    $result = ['errCode' => 1001, 'errMsg' => '出错啦'];
-                    return json($result, 400);
-                }*/
-            return json($banner);  //这种自动是吧返回json好神奇，不用修改config里面返回的文件类型
-            }
+        /*$bannerModel = new BannerModel();
+        $banner = $bannerModel->hasMany('BannerItem', 'banner_id', 'id')->find($id);
+        $banner = $bannerModel->getBannerById($id);*/
+        $bannerModel = new BannerModel();
+        $banner = $bannerModel->with(['items', 'items.img'])->find($id);
+
+        $banner->hidden(['update_time', 'delete_time']);
+        /*if (!$banner) {
+            throw new BannerMissingException();
+        }*/
+        //}
+        /*catch
+            (Exception $e) {
+                $result = ['errCode' => 1001, 'errMsg' => '出错啦'];
+                return json($result, 400);
+            }*/
+        return json($banner);  //这种自动是吧返回json好神奇，不用修改config里面返回的文件类型
+    }
+
+    public function test()
+    {
+
+    }
 
 }

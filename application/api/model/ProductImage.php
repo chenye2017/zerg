@@ -14,8 +14,4 @@ class ProductImage extends BaseModel
         return $this->hasOne('image', 'id', 'img_id');
     }
 
-    /*public function getImgIdAttr()
-    {
-        $this->prefixUrl();
-    }*/
 }

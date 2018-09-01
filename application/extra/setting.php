@@ -10,5 +10,5 @@
 // +----------------------------------------------------------------------
 
 return [
-    'img_prefix' => 'http://zerg.app:800/images',
+    'img_prefix' => 'http://zerg.test/images',
 ];

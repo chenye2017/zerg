@@ -14,20 +14,28 @@ class Product extends Controller
     {
         (new Count())->goCheck();
         $productModel = new ProductModel();
-        $products = $productModel->getRecent($count);
+        $products     = $productModel->getRecent($count);//var_dump($products);exit;
 
         //转换成数据集
         //$collection = collection($products);
+        //var_dump($collection);exit;
         $products = $products->hidden(['summary']);
 
         return json($products);
     }
 
-    public function getAllInCategory(Request $req)
+    /**
+     * 根据category id 获取这个分类下商品的详细情况
+     * @param Request $req
+     * @return \think\response\Json
+     * @throws \app\lib\exception\ParamErrorException
+     * @throws \app\lib\exception\ProductException
+     */
+    public function getAllInCategory($id)
     {
         (new IdMustInt())->goCheck();
         $productModel = new ProductModel();
-        $products = $productModel->getAllInCategory($req->param('id'));
+        $products     = $productModel->getAllInCategory($id);
         return json($products);
     }
 
@@ -40,7 +48,7 @@ class Product extends Controller
     {
         (new IdMustInt())->goCheck();
         $productModel = new ProductModel();
-        $product = $productModel->getOne($id);
+        $product      = $productModel->getOne($id);
         return json($product);
     }
 

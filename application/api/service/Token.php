@@ -11,6 +11,12 @@ namespace app\api\service;
 
 class Token
 {
+    /**
+     * 产生随机字符串
+     * 也就是token
+     * @param $length
+     * @return string
+     */
     public function generateToken($length)
     {
         $string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789=[].,';

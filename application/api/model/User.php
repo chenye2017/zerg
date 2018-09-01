@@ -23,17 +23,5 @@ class User extends Model
         return $user->id;
     }
 
-    public function getUid()
-    {
-        $token = Request::instance()->header('token');
-        if (!$token) {
-            throw new ParamErrorException(
-              ['msg'=>'需要传递token哦，才能调用api']
-            );
-        } else {
-            $uid = getCacheValue($token, 'uid');
-            return $uid;
-        }
 
-    }
 }

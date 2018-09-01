@@ -9,15 +9,16 @@
 namespace app\api\model;
 
 
-use think\Db;
+
 use think\Model;
-use think\Exception;
+
 use app\lib\exception\BannerMissingException;
 
 
 class Banner extends Model
 {
     protected $hidden = ['update_time', 'delete_time']; //定义一些通用的隐藏的字段
+    //protected $autoWriteTimestamp = true;
     // protected $table = 'banner_item';
     //public static function getBannerById($id)
     //{

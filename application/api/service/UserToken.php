@@ -13,6 +13,10 @@ use app\api\model\User as UserModel;
 use app\lib\exception\GetWxOpenIdErr;
 use app\lib\exception\TokenSaveErr;
 use think\Exception;
+use think\Request;
+use app\lib\enum\UserScope;
+use app\lib\exception\ForbiddenException;
+use app\lib\exception\ParamErrorException;
 
 
 class UserToken extends Token
@@ -22,6 +26,11 @@ class UserToken extends Token
     protected $app_secret;
     protected $get_token_url;
 
+    /**
+     * 拼接从wx获取openid的参数
+     * UserToken constructor.
+     * @param $code
+     */
     public function __construct($code)
     {
         $this->code = $code;
@@ -30,6 +39,12 @@ class UserToken extends Token
         $this->get_token_url = config('wx.get_token_url');
     }
 
+    /**
+     * 获取用户登陆凭证token
+     * @return array
+     * @throws Exception
+     * @throws GetWxOpenIdErr
+     */
     public function get()
     {
         $url = sprintf($this->get_token_url, $this->app_id, $this->app_secret, $this->code);
@@ -38,12 +53,12 @@ class UserToken extends Token
         if (empty($token)) {
             throw new Exception('获取token失败');
         } else {
-            $loginFail = array_key_exists('errcode', $wxReturn);
+            $loginFail = array_key_exists('errcode', $wxReturn); //如果失败了errcode 就有值，如果成功了，就是0
             if ($loginFail) {
                 $this->handleGetOpenIdErr($wxReturn);
             } else {
                 $token = $this->getToken($wxReturn);
-                return $token;
+                return ['data'=>$token];
             }
         }
     }
@@ -68,6 +83,12 @@ class UserToken extends Token
         return $token;
     }
 
+    /**
+     * 保存token和用户的对应信息进入缓存中，方便检测
+     * @param $cacheData
+     * @return string
+     * @throws TokenSaveErr
+     */
     public function saveToken($cacheData)
     {
         $token = $this->generateToken(32);
@@ -80,6 +101,13 @@ class UserToken extends Token
         }
     }
 
+    /**
+     * token => 用户信息 写入缓存中
+     * @param $uid
+     * @param $wxReturn
+     * @param int $scope
+     * @return mixed
+     */
     protected function prepareCacheData($uid, $wxReturn, $scope = 16)
     {
         $cacheData = $wxReturn;
@@ -95,6 +123,47 @@ class UserToken extends Token
            'errCode'=>$result['errcode'],
             'errMsg'=>$result['errmsg']
         ]);
+    }
+
+    /**
+     * 验证所有用用户权限
+     * @throws \app\lib\exception\ParamErrorException
+     */
+    public static function needUserScope()
+    {
+        $userScope = getCacheValue(Request::instance()->header('token'), 'scope');
+        if ($userScope >= UserScope::USER) {
+
+        } else {
+            throw new ForbiddenException();
+        }
+    }
+
+    public static function needExclusiveScope()
+    {
+        $userScope = getCacheValue(Request::instance()->header('token'), 'scope');
+        if ($userScope == UserScope::USER) {
+
+        } else {
+            throw new ForbiddenException();
+        }
+    }
+
+    public static function getUid()
+    {
+        $token = Request::instance()->header('token');
+        if (!$token) {
+            throw new ParamErrorException(
+                ['errMsg'=>'需要传递token哦，才能调用api']
+            );
+        } else {
+            $uid = getCacheValue($token, 'uid');
+            if (!$uid) {
+                throw  new ParamErrorException(['errMsg'=>'token 错误，不合法']);
+            }
+            return $uid;
+        }
+
     }
 
 }

@@ -17,6 +17,6 @@ class Count extends BaseValidate
     ];
 
     protected $message = [
-        'id'=> 'count 必须是正整数，在1到15之间，默认15'
+        'id.count'=> 'count 必须是正整数，在1到15之间，默认15'
     ];
 }

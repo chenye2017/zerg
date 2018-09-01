@@ -62,6 +62,14 @@ class Product extends BaseModel
             ->with(['propertys'])
             ->where('id', '=', $id)
             ->find();
+
+        /*$product = self::with([
+            'imges', 'imges.imgUrl'
+            ])
+            ->with(['propertys'])
+            ->where('id', '=', $id)
+            ->find();*/
         return $product;
     }
+
 }

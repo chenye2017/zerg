@@ -6,6 +6,7 @@ use app\api\validate\BaseValidate;
 use app\api\validate\IdMustArray;
 use app\api\validate\IdMustInt;
 use think\Controller;
+use think\Db;
 use think\Request;
 use app\api\model\Theme AS ThemeModel;
 

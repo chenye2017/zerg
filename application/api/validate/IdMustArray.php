@@ -1,12 +1,11 @@
 <?php
 namespace app\api\validate;
 
-use app\api\validate\BaseValidate;
 
 class IdMustArray extends BaseValidate
 {
     protected $message = [
-        'id'=>'必须是以逗号分隔的正整数字符串，不能为空'
+        'id.idMustArray'=>'必须是以逗号分隔的正整数字符串，不能为空'
     ];
 
     protected $rule = [

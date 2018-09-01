@@ -24,5 +24,5 @@ require __DIR__ . '/../thinkphp/start.php';
     // 日志保存目录
     'path'  => LOG_PATH,
     // 日志记录级别
-    'level' => ['sql'],
+    'level' => ['all'],
 ]);

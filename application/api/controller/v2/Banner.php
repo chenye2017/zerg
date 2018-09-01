@@ -13,8 +13,9 @@ use think\Request;
 
 class Banner
 {
-    public function getBanner(Request $req)
+    public function getBanner(Request $req, $id, $version)
     {
+        var_dump($version, $id);exit;
         return 'this is v2';
     }
 }

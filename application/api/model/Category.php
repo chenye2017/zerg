@@ -22,7 +22,8 @@ class Category extends BaseModel
 
     public function getAllCategory()
     {
-        $categories = self::with(['withTopicImg'])->select();
+        //$categories = self::with(['withTopicImg'])->select();
+        $categories = Category::all([], ['withTopicImg']);
         if ($categories->isEmpty()) {
             throw new CategoryException();
         }
