@@ -63,3 +63,5 @@ Route::group('api/:version/address', function () {
 Route::post('api/:version/order', 'api/:version.Order/placeOrder');
 
 Route::post('api/:version/test', 'api/:version.Order/test');
+Route::get('api/:version/order/:id', 'api/:version.Order/getOrderInfo', [], ['id'=>'\d+']);
+Route::post('api/:version/order/orderPage', 'api/:version.Order/getSelfOrders');

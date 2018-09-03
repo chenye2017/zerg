@@ -19,4 +19,14 @@ class Order extends Model
     {
         return $this->belongsToMany('\app\api\model\OrderProduct', 'order_product', 'order_id', 'id');
     }
+
+    public function getSnapItemsAttr($value)
+    {
+        return json_decode($value, true);
+    }
+
+    public function getSnapAddressAttr($value)
+    {
+        return json_decode($value, true);
+    }
 }

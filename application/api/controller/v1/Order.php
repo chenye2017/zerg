@@ -10,24 +10,22 @@ namespace app\api\controller\v1;
 
 
 use app\api\controller\Base;
-use app\api\model\OrderProduct;
 use app\api\model\UserAddress;
-use app\api\service\UserToken;
-use app\api\validate\BaseValidate;
-use app\api\validate\Order as OrderValidate;
-use app\api\validate\TestValidate;
-use app\lib\exception\ParamErrorException;
-use think\Controller;
-use think\Exception;
-use think\Request;
 use app\api\model\Product;
 use app\api\model\Order as OrderModel;
+use app\api\service\UserToken;
+use app\api\validate\IdMustInt;
+use app\api\validate\TestValidate;
+use app\lib\exception\ForbiddenException;
+use app\lib\exception\ParamErrorException;
+use think\Exception;
+use think\Request;
 use think\Db;
 
 class Order extends Base
 {
     protected $beforeActionList = [
-        'checkUserScope' => ['only' => 'placeOrder']
+        'checkUserScope' => ['only' => 'placeOrder,getOrderInfo']
     ];
 
     /**
@@ -199,6 +197,43 @@ class Order extends Base
         $yCode   = array('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J');
         $orderSn = $yCode[intval(date('Y')) - 2011] . strtoupper(dechex(date('m'))) . date('d') . substr(time(), -5) . substr(microtime(), 2, 5) . sprintf('%02d', rand(0, 99));
         return $orderSn;
+    }
+
+
+    /**
+     * 获取订单详情
+     * @return array
+     * @throws ForbiddenException
+     * @throws ParamErrorException
+     */
+    public function getOrderInfo()
+    {
+        (new IdMustInt())->goCheck(); // 这种命名方式相比较我那种在命名中加入模块名称的通用性更高
+        // 验证订单是不是你的
+        $userid = UserToken::getUid();
+        $id = Request::instance()->route('id');
+        $orderInfo = OrderModel::where('user_id', '=', $userid)->where('id', '=', $id)->select();
+        if ($orderInfo->isEmpty()) {
+            throw new ForbiddenException();
+        }
+        return json(['code'=>'', 'data'=>$orderInfo]);
+
+    }
+
+    /**
+     * 获取每页订单大概信息
+     * @return \think\response\Json
+     * @throws ParamErrorException
+     * @throws \think\exception\DbException
+     */
+    public function getSelfOrders()
+    {
+        $page = Request::instance()->param('page', 1);
+        $limit = Request::instance()->param('limit', 5);
+
+        $order = Db::table('order')->where('user_id', '=', UserToken::getUid())->order('id', 'desc')->paginate($limit, true, ['page'=>$page])->toArray();
+
+        return json(['code'=>'', 'data'=>$order]);
     }
 
     public function test(Request $req)

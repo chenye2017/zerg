@@ -31,7 +31,7 @@ function getCacheValue($token, $name)
     $arr = \think\Cache::get($token);
     if (!$arr) {
         throw new \app\lib\exception\ParamErrorException(
-          ['msg'=>'token不存在或者错误']
+          ['errMsg'=>'token不存在或者错误']
         );
     }
 
