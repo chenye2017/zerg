@@ -70,3 +70,8 @@ Route::post('api/:version/order/orderPage', 'api/:version.Order/getSelfOrders');
 // qq登陆
 Route::get('/api/login/getQqAuthCode', 'api/v1.Login/getQqAuthCode');
 Route::get('/api/login/qqlogin', 'api/v1.Login/qqLogin');
+Route::get('/api/login/test', 'api/v1.Login/test');
+
+// 微博登录
+Route::get('/api/login/getWbAuthCode', 'api/v1.Login/getWbAuthCode');
+Route::get('/api/login/weibologin', 'api/v1.Login/weiboLogin');
