@@ -22,6 +22,7 @@ class BaseValidate extends Validate
         $param  = Request::instance()->param();
         //$param = $tmps?:$param;//if ($tmps) {var_dump($param,'ll', $tmps);exit;}
         $result = $this->batch()->check($param);//这个只是bool值,$this->error 才能获取到真正的错误信息，validate可以自定义错误信息
+
         if ($result) {
             return true;
         } else {

@@ -23,4 +23,5 @@ class Base extends Controller
     {
         UserToken::needExclusiveScope();
     }
+
 }

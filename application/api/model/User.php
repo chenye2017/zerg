@@ -24,4 +24,10 @@ class User extends Model
     }
 
 
+    public function withUserAddress()
+    {
+        return $this->hasOne('user_address', 'user_id', 'id');
+    }
+
+
 }

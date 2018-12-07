@@ -10,9 +10,12 @@ namespace app\api\controller\v1;
 
 
 use app\api\model\Banner as BannerModel;
+use app\api\model\Image;
+use app\api\model\User;
 use app\api\validate\BaseValidate;
 use app\api\validate\IdMustInt;
 
+use think\Db;
 use think\Request;
 use think\Validate;
 
@@ -29,6 +32,18 @@ class Banner
      */
     public function getBanner(Request $request)
     {
+        /*var_dump('sss');
+        var_dump((new User())->where('id', 8)->find(), 'sssss');
+        var_dump(User::get(8));
+        exit;*/
+        /*$res1 = Db::query('select * from category where id = ?',[2]);
+        var_dump($res1);exit;*/
+        /*$res = Db::table('category')->where(['id'=>['BETWEEN', [2,3,4]]])->fetchSql()->select();
+        var_dump($res);exit;*/
+        /*var_dump(Image::with(['withCategory'])->select([4,5,6,7,8,9])->toArray(), '22');
+
+        exit;*/
+        //var_dump(\app\api\model\Test::where(['name'=>'cy'])->delete());
 
         //$z = 1/0; return;
         /*$param  = [
@@ -48,6 +63,7 @@ class Banner
         $check    = $validate->goCheck();
 
 //exit;
+
         //} else {
         //$id = $request->param('id');
         //$result = $validate->batch()->check($param);
@@ -66,7 +82,7 @@ class Banner
         $bannerModel = new BannerModel();
         $banner = $bannerModel->with(['items', 'items.img'])->find($id);
 
-        $banner->hidden(['update_time', 'delete_time']);
+        //$banner->hidden(['update_time', 'delete_time']);
         /*if (!$banner) {
             throw new BannerMissingException();
         }*/

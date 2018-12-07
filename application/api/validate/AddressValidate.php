@@ -21,11 +21,18 @@ class AddressValidate extends BaseValidate
     ];
 
     protected $message = [
-        'name' => 'name必须传递，且不能为空',
+        'name.require' => 'name必须传递',
+        'name.isNotEmpty' => 'name不能为空',
         'mobile' => 'mobile必须传递,必须是手机号',
         'province' => 'province必须传递，且不能为空',
         'city' => 'city必须传递，且不能为空',
         'country' => 'country必须传递，且不能为空',
         'detail' => 'detail必须传递，且不能为空'
+    ];
+
+    protected $scene = [
+        'update' => [
+            'detail' => 'isMobile'
+        ],
     ];
 }

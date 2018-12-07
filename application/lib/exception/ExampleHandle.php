@@ -9,12 +9,11 @@
 namespace app\lib\exception;
 
 
-use Exception;
-use think\Config;
+
 use think\exception\Handle;
 use think\Log;
 use think\Request;
-use app\lib\exception\BasicEception;
+
 
 
 class ExampleHandle extends Handle
@@ -28,7 +27,7 @@ class ExampleHandle extends Handle
      * @param Exception $e
      * @return \think\Response|\think\response\Json
      */
-    public function render(Exception $e)
+    public function render(\Exception $e)
     {
         // 已知异常
         if ($e instanceof BasicEception) {

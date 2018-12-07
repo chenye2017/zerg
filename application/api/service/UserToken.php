@@ -31,9 +31,8 @@ class UserToken extends Token
      * UserToken constructor.
      * @param $code
      */
-    public function __construct($code)
+    public function __construct()
     {
-        $this->code = $code;
         $this->app_id = config('wx.app_id');
         $this->app_secret = config('wx.app_secret');
         $this->get_token_url = config('wx.get_token_url');
@@ -45,20 +44,21 @@ class UserToken extends Token
      * @throws Exception
      * @throws GetWxOpenIdErr
      */
-    public function get()
+    public function get($code)
     {
-        $url = sprintf($this->get_token_url, $this->app_id, $this->app_secret, $this->code);
+        $url = sprintf($this->get_token_url, $this->app_id, $this->app_secret, $code);
         $token = my_curl($url, []);
         $wxReturn = json_decode($token, true);
         if (empty($token)) {
             throw new Exception('获取token失败');
         } else {
+            // 这个微信登陆是真的坑爹，竟然获取错误和获取成功的返回数据格式不一样
             $loginFail = array_key_exists('errcode', $wxReturn); //如果失败了errcode 就有值，如果成功了，就是0
             if ($loginFail) {
                 $this->handleGetOpenIdErr($wxReturn);
             } else {
                 $token = $this->getToken($wxReturn);
-                return ['data'=>$token];
+                return ['token'=>$token];
             }
         }
     }
@@ -91,7 +91,7 @@ class UserToken extends Token
      */
     public function saveToken($cacheData)
     {
-        $token = $this->generateToken(32);
+        $token = $this->generateToken(32); // 只要生成32位唯一的字符串就好了
         $expire_in_time = config('wx.token_expire_in');
         $save = cache($token, $cacheData, $expire_in_time);
         if (!$save) {
@@ -131,6 +131,7 @@ class UserToken extends Token
      */
     public static function needUserScope()
     {
+        var_dump(Request::instance()->header('token'), ';;');exit;
         $userScope = getCacheValue(Request::instance()->header('token'), 'scope');
         if ($userScope >= UserScope::USER) {
 

@@ -25,6 +25,7 @@ class Address extends Base
         $validate = new AddressValidate();
         $validate->goCheck(); //验证参数
 
+
         $param = $validate->filterParam();
 
         //获取用户
@@ -33,17 +34,16 @@ class Address extends Base
 
         //这个用户的address是否存在，存在则更新，不存在则新建
         $userAddressModel = new UserAddressModel();
+        // 目前是1 对 1
         $addressInfo = $userAddressModel::get(['user_id'=>$uid]);
         if ($addressInfo) {
             $ressult = $userAddressModel->save($param, ['user_id'=>$uid]);//这个数据没有变动会修改也是返回0
+
         } else {
             $param['user_id'] = $uid;
             $ressult = $userAddressModel->create($param);
         }
-
-
-           return json(new SuccessMsg(), 201);
-
+           throw new SuccessMsg();
     }
 
 

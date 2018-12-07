@@ -65,3 +65,8 @@ Route::post('api/:version/order', 'api/:version.Order/placeOrder');
 Route::post('api/:version/test', 'api/:version.Order/test');
 Route::get('api/:version/order/:id', 'api/:version.Order/getOrderInfo', [], ['id'=>'\d+']);
 Route::post('api/:version/order/orderPage', 'api/:version.Order/getSelfOrders');
+
+
+// qq登陆
+Route::get('/api/login/getQqAuthCode', 'api/v1.Login/getQqAuthCode');
+Route::get('/api/login/qqlogin', 'api/v1.Login/qqLogin');

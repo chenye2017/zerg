@@ -17,4 +17,9 @@ class Image extends BaseModel
         return $this->prefixUrl($value, $data);
     }
 
+    public function withCategory()
+    {
+        return $this->belongsTo('Category', 'id', 'topic_img_id');
+    }
+
 }

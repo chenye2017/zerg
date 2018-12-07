@@ -17,13 +17,13 @@ class Category extends BaseModel
 
     public function withTopicImg()
     {
-        return $this->belongsTo('Image', 'topic_img_id', 'id');
+        return $this->hasOne('Image', 'id', 'topic_img_id');
     }
 
     public function getAllCategory()
     {
         //$categories = self::with(['withTopicImg'])->select();
-        $categories = Category::all([], ['withTopicImg']);
+        $categories = self::all([], ['withTopicImg']);
         if ($categories->isEmpty()) {
             throw new CategoryException();
         }

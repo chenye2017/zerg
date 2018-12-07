@@ -10,11 +10,18 @@ use app\api\model\Product as ProductModel;
 
 class Product extends Controller
 {
+    /**
+     * 最近新上的新品
+     * @param int $count
+     * @return \think\response\Json
+     * @throws \app\lib\exception\ParamErrorException
+     * @throws \app\lib\exception\ProductException
+     */
     public function getRecent($count = 15)
     {
         (new Count())->goCheck();
         $productModel = new ProductModel();
-        $products     = $productModel->getRecent($count);//var_dump($products);exit;
+        $products     = $productModel->getRecent($count);
 
         //转换成数据集
         //$collection = collection($products);
