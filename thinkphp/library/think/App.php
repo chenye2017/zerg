@@ -563,8 +563,10 @@ class App
             }
 
             // 路由检测（根据路由定义返回不同的URL调度）
+            //var_dump($request, $path, $depr, $config['url_domain_deploy']);exit;
             $result = Route::check($request, $path, $depr, $config['url_domain_deploy']);
             $must   = !is_null(self::$routeMust) ? self::$routeMust : $config['url_route_must'];
+
             if ($must && false === $result) {
                 // 路由无效
                 throw new RouteNotFoundException();
