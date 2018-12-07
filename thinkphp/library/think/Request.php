@@ -394,6 +394,7 @@ class Request
             }
 
             // 分析PATHINFO信息
+
             if (!isset($_SERVER['PATH_INFO'])) {
                 foreach (Config::get('pathinfo_fetch') as $type) {
                     if (!empty($_SERVER[$type])) {
